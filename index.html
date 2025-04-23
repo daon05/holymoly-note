@@ -1,5 +1,4 @@
-<!DOCTYPE html>
-<html lang="ko">
+<!DOCTYPE html><html lang="ko">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -7,83 +6,160 @@
     <style>
       body {
         font-family: 'Apple SD Gothic Neo', sans-serif;
-        background-color: #f8f4ff;
         margin: 0;
         padding: 0;
-        color: #333;
+        transition: background-color 0.5s ease;
       }
       .container {
-        max-width: 600px;
-        margin: 50px auto;
+        max-width: 700px;
+        margin: 40px auto;
         background-color: white;
         border-radius: 20px;
         padding: 30px;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 5px 20px rgba(0,0,0,0.1);
         text-align: center;
       }
       h1 {
         color: #ae94f4;
-        font-size: 24px;
-        margin-bottom: 20px;
       }
-      .result-box {
-        background-color: #fff;
-        padding: 30px;
-        border-radius: 20px;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        margin-top: 30px;
+      .input-group {
+        margin: 15px 0;
       }
-      .result-box h2 {
-        color: #ae94f4;
-        font-size: 22px;
-        margin-bottom: 20px;
-      }
-      .result-box ul {
-        list-style: none;
-        padding-left: 0;
-        font-size: 16px;
-        margin: 20px 0;
-      }
-      .result-box ul li {
-        font-size: 16px;
-      }
-      .insta-link {
-        margin-top: 30px;
-        text-align: center;
-      }
-      .insta-link p {
-        color: #ae94f4;
-        font-size: 16px;
-        margin-bottom: 8px;
-      }
-      .insta-link a {
-        color: #fff;
-        background-color: #ae94f4;
-        padding: 10px 20px;
+      input, select, button {
+        padding: 10px;
         border-radius: 10px;
-        text-decoration: none;
-        display: inline-block;
+        border: 1px solid #ccc;
+        width: 90%;
+        margin: 5px auto;
       }
+      .result, .weather, .horoscope, .insta {
+        margin-top: 30px;
+        padding: 15px;
+        background: #f4efff;
+        border-radius: 15px;
+      }
+      .share-btn {
+        margin-top: 10px;
+        background-color: #ae94f4;
+        color: white;
+        border: none;
+        cursor: pointer;
+      }
+      .moon-theme-full { background-color: #fff3e6; }
+      .moon-theme-new { background-color: #e6f7ff; }
     </style>
   </head>
   <body>
-    <div class="container">
-      <h1>오늘의 너에 딱 맞는 반짝임을 골라줄게</h1>
-      <div class="result-box">
-        <h2>오늘의 반짝임 추천</h2>
-        <p style="font-size: 16px; color: #444;">사주 결과에 따라 당신에게 어울리는 오늘의 액세서리는:</p>
-        <ul>
-          <li>• 은은하게 빛나는 라벤더 원석 반지</li>
-          <li>• 별빛을 닮은 실버 하트 귀걸이</li>
-        </ul>
+    <div class="container" id="app">
+      <h1>Holymoly한 별의 노트</h1><div class="input-group">
+    <input type="text" id="username" placeholder="이름을 입력하세요" />
+  </div>
 
-        <div class="insta-link">
-          <p>더 많은 반짝임이 궁금하다면, 인스타그램으로 놀러와!</p>
-          <a href="https://www.instagram.com/holymolyoeel?igsh=a2draXB6OGRxZ2pk" target="_blank">
-            Holymoly 인스타그램 바로가기
-          </a>
-        </div>
-      </div>
-    </div>
+  <h3>사주 입력하기</h3>
+  <div class="input-group">
+    <input type="date" id="birthdate" />
+    <input type="time" id="birthtime" />
+    <button onclick="handleSaju()">사주로 추천받기</button>
+    <button onclick="handleSaju(true)">시간 모름</button>
+  </div>
+
+  <div class="input-group">
+    <button onclick="handlePsychology()">간단한 심리 테스트 하기</button>
+  </div>
+
+  <div class="input-group">
+    <button onclick="handleWeather()">날씨 기반 추천 보기</button>
+  </div>
+
+  <div class="result" id="sajuResult"></div>
+  <div class="result" id="psychologyResult"></div>
+  <div class="weather" id="weatherResult"></div>
+  <div class="horoscope" id="horoscopeResult"></div>
+  <div class="insta">
+    <a href="https://www.instagram.com/holymolyoeel?igsh=a2draXB6OGRxZ2pk" target="_blank">
+      우리 인스타그램에서 더 많은 반짝임 구경하기
+    </a>
+  </div>
+
+  <div class="input-group">
+    <button class="share-btn" onclick="shareResults()">친구에게 공유하기</button>
+  </div>
+</div>
+
+<script>
+  function getUsername() {
+    const name = document.getElementById('username').value;
+    return name ? name + '님에게 추천하는 ' : '';
+  }
+
+  function handleSaju(skipTime = false) {
+    const birth = document.getElementById('birthdate').value;
+    const time = document.getElementById('birthtime').value;
+    if (!birth) return alert('생년월일을 입력해주세요!');
+
+    const accessories = ['진주 귀걸이', '라벤더빛 팔찌', '큐빅 헤어핀'];
+    const chosen = accessories[Math.floor(Math.random() * accessories.length)];
+    document.getElementById('sajuResult').innerText =
+      getUsername() + `사주에 어울리는 악세서리는: ${chosen}`;
+  }
+
+  function handlePsychology() {
+    const results = ['은은한 실버 반지', '활기찬 오렌지 귀걸이', '편안한 플라워 목걸이'];
+    const chosen = results[Math.floor(Math.random() * results.length)];
+    document.getElementById('psychologyResult').innerText =
+      getUsername() + `당신의 심리에 어울리는 악세서리는: ${chosen}`;
+  }
+
+  function handleWeather() {
+    fetch('https://api.openweathermap.org/data/2.5/weather?q=Seoul&appid=7d5952256ce624d9d58b005bea3dc42f&units=metric')
+      .then(res => res.json())
+      .then(data => {
+        const temp = data.main.temp;
+        const desc = data.weather[0].description;
+        let suggestion = '';
+        let fashion = '';
+        let perfume = '';
+        if (temp < 10) {
+          suggestion = '따뜻한 니트 귀걸이';
+          fashion = '코트 + 앵클부츠';
+          perfume = '머스크 계열 따뜻한 향';
+        } else if (temp < 20) {
+          suggestion = '크리스탈 드롭 이어링';
+          fashion = '가디건 + 스커트';
+          perfume = '라벤더 & 프리지아 향';
+        } else {
+          suggestion = '컬러풀 비즈 팔찌';
+          fashion = '민소매 + 데님 팬츠';
+          perfume = '상큼한 시트러스 계열';
+        }
+        document.getElementById('weatherResult').innerText =
+          `${getUsername()}현재 날씨는 ${desc}, ${temp}°C
+
+추천 악세서리: ${suggestion} 의상: ${fashion} 향수: ${perfume}`; }); }
+
+function shareResults() {
+    const url = window.location.href;
+    navigator.clipboard.writeText(url).then(() => {
+      alert('링크가 복사되었어요! 친구에게 붙여넣기 해보세요.');
+    });
+  }
+
+  // 오늘의 별자리 운세 (간단히 랜덤)
+  const horoscopes = [
+    '좋은 기회가 찾아올 거예요!',
+    '오늘은 휴식이 필요해요.',
+    '기분 좋은 하루가 될 거예요!',
+    '새로운 인연을 만날지도 몰라요.'
+  ];
+  document.getElementById('horoscopeResult').innerText =
+    '오늘의 별자리 운세: ' + horoscopes[Math.floor(Math.random() * horoscopes.length)];
+
+  // 달 상태에 따라 배경색 테마 변경
+  const date = new Date();
+  const moonDay = date.getDate() % 29.5;
+  if (moonDay < 7) document.body.classList.add('moon-theme-new');
+  else if (moonDay > 22) document.body.classList.add('moon-theme-full');
+</script>
+
   </body>
 </html>
