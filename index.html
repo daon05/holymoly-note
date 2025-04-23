@@ -178,3 +178,113 @@
   </script>
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>액세서리 커스터마이징</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            text-align: center;
+            padding: 20px;
+        }
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .item {
+            width: 50px;
+            height: 50px;
+            margin: 10px;
+            background-color: #f5a623;
+            display: inline-block;
+            border-radius: 50%;
+            cursor: pointer;
+            position: relative;
+        }
+        .remove-btn {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background-color: red;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            display: none;
+        }
+        .item:hover .remove-btn {
+            display: block;
+        }
+        .drop-area {
+            margin-top: 50px;
+            width: 100%;
+            height: 300px;
+            background-color: #eaeaea;
+            border: 2px dashed #ccc;
+            position: relative;
+        }
+        .message {
+            margin-top: 20px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>액세서리 커스터마이징</h1>
+        <div class="item" draggable="true" id="item1">
+            <div class="remove-btn" onclick="removeItem('item1')">X</div>
+        </div>
+        <div class="item" draggable="true" id="item2">
+            <div class="remove-btn" onclick="removeItem('item2')">X</div>
+        </div>
+        <div class="item" draggable="true" id="item3">
+            <div class="remove-btn" onclick="removeItem('item3')">X</div>
+        </div>
+        
+        <div class="drop-area" id="dropArea">
+            <p class="message">아이템을 이곳으로 드래그 해주세요!</p>
+        </div>
+    </div>
+
+    <script>
+        // 드래그 이벤트 추가
+        const items = document.querySelectorAll('.item');
+        items.forEach(item => {
+            item.addEventListener('dragstart', (e) => {
+                e.dataTransfer.setData('text', e.target.id);
+            });
+        });
+
+        // 드롭 영역에 아이템을 놓을 수 있도록 설정
+        const dropArea = document.getElementById('dropArea');
+        dropArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+        });
+        dropArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            const itemId = e.dataTransfer.getData('text');
+            const item = document.getElementById(itemId);
+            dropArea.appendChild(item); // 드롭된 아이템을 영역 안으로 이동
+            item.style.position = 'absolute'; // 아이템이 드래그된 위치로 고정
+            item.style.top = `${e.clientY - dropArea.offsetTop - item.offsetHeight / 2}px`;
+            item.style.left = `${e.clientX - dropArea.offsetLeft - item.offsetWidth / 2}px`;
+        });
+
+        // 지우기 버튼
+        function removeItem(itemId) {
+            const item = document.getElementById(itemId);
+            item.remove(); // 아이템 삭제
+        }
+    </script>
+</body>
+</html>
