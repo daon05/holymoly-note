@@ -1,140 +1,89 @@
-<!DOCTYPE html><html lang="ko">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Holymoly한 별의 노트</title>
-  <style>
-    body {
-      font-family: 'Apple SD Gothic Neo', sans-serif;
-      background-color: #f8f4ff;
-      margin: 0;
-      padding: 0;
-      color: #333;
-    }
-    .container {
-      max-width: 700px;
-      margin: 50px auto;
-      background-color: white;
-      border-radius: 20px;
-      padding: 30px;
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    }
-    h1, h2 {
-      text-align: center;
-      color: #ae94f4;
-    }
-    label {
-      display: block;
-      margin: 10px 0 5px;
-    }
-    input, select {
-      width: 100%;
-      padding: 8px;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      margin-bottom: 10px;
-    }
-    button {
-      background-color: #ae94f4;
-      color: white;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 10px;
-      cursor: pointer;
-    }
-    .result {
-      margin-top: 30px;
-      padding: 20px;
-      background-color: #f0ebff;
-      border-radius: 15px;
-    }
-  </style>
-</head>
-<body>
-  <div class="container">
-    <h1>오늘의 너에 딱 맞는 반짝임을 골라줄게</h1><h2>사주 입력하기</h2>
-<label for="birthdate">생년월일:</label>
-<input type="date" id="birthdate">
-
-<label for="birthtime">태어난 시간 (선택):</label>
-<input type="time" id="birthtime">
-<label><input type="checkbox" id="unknown-time"> 태어난 시간을 몰라요</label>
-
-<h2>간단한 심리 테스트</h2>
-<label for="mood">오늘 기분은 어떤가요?</label>
-<select id="mood">
-  <option value="happy">기분 좋아요</option>
-  <option value="sad">살짝 우울해요</option>
-  <option value="tired">피곤해요</option>
-  <option value="excited">설레요</option>
-</select>
-
-<label for="color">지금 끌리는 색깔은?</label>
-<select id="color">
-  <option value="purple">보라</option>
-  <option value="blue">파랑</option>
-  <option value="pink">핑크</option>
-  <option value="black">검정</option>
-</select>
-
-<button onclick="generateResult()">추천받기</button>
-
-<div class="result" id="resultBox" style="display:none;"></div>
-
-  </div>  <script>
-    function generateResult() {
-      const birthdate = document.getElementById('birthdate').value;
-      let birthtime = document.getElementById('birthtime').value;
-      const unknownTime = document.getElementById('unknown-time').checked;
-      const mood = document.getElementById('mood').value;
-      const color = document.getElementById('color').value;
-
-      if (unknownTime) {
-        birthtime = '12:00'; // 기본값으로 정오
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Holymoly한 별의 노트</title>
+    <style>
+      body {
+        font-family: 'Apple SD Gothic Neo', sans-serif;
+        background-color: #f8f4ff;
+        margin: 0;
+        padding: 0;
+        color: #333;
       }
+      .container {
+        max-width: 600px;
+        margin: 50px auto;
+        background-color: white;
+        border-radius: 20px;
+        padding: 30px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        text-align: center;
+      }
+      h1 {
+        color: #ae94f4;
+        font-size: 24px;
+        margin-bottom: 20px;
+      }
+      .result-box {
+        background-color: #fff;
+        padding: 30px;
+        border-radius: 20px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        margin-top: 30px;
+      }
+      .result-box h2 {
+        color: #ae94f4;
+        font-size: 22px;
+        margin-bottom: 20px;
+      }
+      .result-box ul {
+        list-style: none;
+        padding-left: 0;
+        font-size: 16px;
+        margin: 20px 0;
+      }
+      .result-box ul li {
+        font-size: 16px;
+      }
+      .insta-link {
+        margin-top: 30px;
+        text-align: center;
+      }
+      .insta-link p {
+        color: #ae94f4;
+        font-size: 16px;
+        margin-bottom: 8px;
+      }
+      .insta-link a {
+        color: #fff;
+        background-color: #ae94f4;
+        padding: 10px 20px;
+        border-radius: 10px;
+        text-decoration: none;
+        display: inline-block;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>오늘의 너에 딱 맞는 반짝임을 골라줄게</h1>
+      <div class="result-box">
+        <h2>오늘의 반짝임 추천</h2>
+        <p style="font-size: 16px; color: #444;">사주 결과에 따라 당신에게 어울리는 오늘의 액세서리는:</p>
+        <ul>
+          <li>• 은은하게 빛나는 라벤더 원석 반지</li>
+          <li>• 별빛을 닮은 실버 하트 귀걸이</li>
+        </ul>
 
-      let personality = '';
-      let accessory = '';
-      if (mood === 'happy') personality = '에너지가 넘쳐요!';
-      else if (mood === 'sad') personality = '위로가 필요해 보여요.';
-      else if (mood === 'tired') personality = '충전이 필요한 하루네요!';
-      else personality = '설레는 하루, 특별한 일이 생길지도?';
-
-      if (color === 'purple') accessory = '라벤더 펜던트 목걸이';
-      else if (color === 'blue') accessory = '블루 사파이어 반지';
-      else if (color === 'pink') accessory = '핑크 크리스탈 귀걸이';
-      else accessory = '블랙 오닉스 팔찌';
-
-      document.getElementById('resultBox').style.display = 'block';
-      document.getElementById('resultBox').innerHTML = `
-        <h3>사주 결과</h3>
-        <p>입력하신 생년월일: <strong>${birthdate}</strong></p>
-        <p>태어난 시간: <strong>${birthtime}</strong></p>
-        <h3>심리 분석</h3>
-        <p>${personality}</p>
-        <h3>오늘의 추천 악세서리</h3>
-        <p><strong>${accessory}</strong>를 추천해요!</p>
-        <p>별자리: <strong>${getZodiac(birthdate)}</strong></p>
-        <p><em>오늘의 날씨에 어울리는 스타일도 고려해보세요!</em></p>
-      `;
-    }
-
-    function getZodiac(date) {
-      const d = new Date(date);
-      const m = d.getMonth() + 1;
-      const day = d.getDate();
-      if ((m === 1 && day >= 20) || (m === 2 && day <= 18)) return '물병자리';
-      if ((m === 2 && day >= 19) || (m === 3 && day <= 20)) return '물고기자리';
-      if ((m === 3 && day >= 21) || (m === 4 && day <= 19)) return '양자리';
-      if ((m === 4 && day >= 20) || (m === 5 && day <= 20)) return '황소자리';
-      if ((m === 5 && day >= 21) || (m === 6 && day <= 21)) return '쌍둥이자리';
-      if ((m === 6 && day >= 22) || (m === 7 && day <= 22)) return '게자리';
-      if ((m === 7 && day >= 23) || (m === 8 && day <= 22)) return '사자자리';
-      if ((m === 8 && day >= 23) || (m === 9 && day <= 22)) return '처녀자리';
-      if ((m === 9 && day >= 23) || (m === 10 && day <= 22)) return '천칭자리';
-      if ((m === 10 && day >= 23) || (m === 11 && day <= 22)) return '전갈자리';
-      if ((m === 11 && day >= 23) || (m === 12 && day <= 24)) return '사수자리';
-      return '염소자리';
-    }
-  </script></body>
+        <div class="insta-link">
+          <p>더 많은 반짝임이 궁금하다면, 인스타그램으로 놀러와!</p>
+          <a href="https://www.instagram.com/holymolyoeel?igsh=a2draXB6OGRxZ2pk" target="_blank">
+            Holymoly 인스타그램 바로가기
+          </a>
+        </div>
+      </div>
+    </div>
+  </body>
 </html>
