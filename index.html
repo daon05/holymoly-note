@@ -1,8 +1,7 @@
-<!DOCTYPE html>
-<html lang="ko">
+<!DOCTYPE html><html lang="ko">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Holymoly한 별의 노트</title>
   <style>
     body {
@@ -17,167 +16,125 @@
       margin: 50px auto;
       background-color: white;
       border-radius: 20px;
-      padding: 40px;
-      box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-      text-align: center;
+      padding: 30px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
     }
-    h1 {
+    h1, h2 {
+      text-align: center;
       color: #ae94f4;
-      font-size: 28px;
-      margin-bottom: 30px;
+    }
+    label {
+      display: block;
+      margin: 10px 0 5px;
+    }
+    input, select {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      margin-bottom: 10px;
     }
     button {
       background-color: #ae94f4;
       color: white;
       border: none;
+      padding: 10px 20px;
       border-radius: 10px;
-      padding: 12px 24px;
-      font-size: 16px;
       cursor: pointer;
-      transition: background-color 0.3s ease;
-      margin-top: 20px;
     }
-    button:hover {
-      background-color: #987ce0;
-    }
-    input[type="date"], input[type="time"] {
-      padding: 10px;
-      font-size: 16px;
-      margin-top: 20px;
-      border-radius: 5px;
-      border: 1px solid #ccc;
-    }
-    #weather-recommendation, #fortune-recommendation, #accessory-recommendation, #psychology-recommendation {
+    .result {
       margin-top: 30px;
-      font-size: 18px;
-      color: #555;
-    }
-    .instagram {
-      margin-top: 50px;
-    }
-    .instagram a {
-      color: #ae94f4;
-      text-decoration: none;
-      font-weight: bold;
-      font-size: 16px;
+      padding: 20px;
+      background-color: #f0ebff;
+      border-radius: 15px;
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>오늘의 너에 딱 맞는 반짝임을 골라줄게</h1>
+    <h1>오늘의 너에 딱 맞는 반짝임을 골라줄게</h1><h2>사주 입력하기</h2>
+<label for="birthdate">생년월일:</label>
+<input type="date" id="birthdate">
 
-    <!-- 날씨 정보 버튼 -->
-    <button onclick="getWeather()">날씨에 맞는 악세서리 추천</button>
-    <div id="weather-recommendation"></div>
+<label for="birthtime">태어난 시간 (선택):</label>
+<input type="time" id="birthtime">
+<label><input type="checkbox" id="unknown-time"> 태어난 시간을 몰라요</label>
 
-    <!-- 사주 입력하기 -->
-    <h2>사주 입력하기</h2>
-    <input type="date" id="birthday" onchange="getFortune()">
-    <input type="time" id="birthtime" onchange="getFortune()">
-    <div id="fortune-recommendation"></div>
+<h2>간단한 심리 테스트</h2>
+<label for="mood">오늘 기분은 어떤가요?</label>
+<select id="mood">
+  <option value="happy">기분 좋아요</option>
+  <option value="sad">살짝 우울해요</option>
+  <option value="tired">피곤해요</option>
+  <option value="excited">설레요</option>
+</select>
 
-    <!-- 심리 관련 질문 -->
-    <button onclick="getPsychology()">오늘의 심리 추천</button>
-    <div id="psychology-recommendation"></div>
+<label for="color">지금 끌리는 색깔은?</label>
+<select id="color">
+  <option value="purple">보라</option>
+  <option value="blue">파랑</option>
+  <option value="pink">핑크</option>
+  <option value="black">검정</option>
+</select>
 
-    <!-- 악세서리 추천 -->
-    <button onclick="getAccessoryRecommendation()">오늘의 악세서리 추천</button>
-    <div id="accessory-recommendation"></div>
+<button onclick="generateResult()">추천받기</button>
 
-    <div class="instagram">
-      <p>우리 인스타그램도 놀러와!</p>
-      <a href="https://www.instagram.com/holymolyoeel?igsh=a2draXB6OGRxZ2pk" target="_blank">
-        @holymolyoeel
-      </a>
-    </div>
-  </div>
+<div class="result" id="resultBox" style="display:none;"></div>
 
-  <script>
-    // 날씨 정보 가져오기
-    function getWeather() {
-      const apiKey = "7d5952256ce624d9d58b005bea3dc42f";
-      const city = "Seoul";
-      const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&lang=kr&units=metric`;
+  </div>  <script>
+    function generateResult() {
+      const birthdate = document.getElementById('birthdate').value;
+      let birthtime = document.getElementById('birthtime').value;
+      const unknownTime = document.getElementById('unknown-time').checked;
+      const mood = document.getElementById('mood').value;
+      const color = document.getElementById('color').value;
 
-      fetch(url)
-        .then(response => response.json())
-        .then(data => {
-          const weather = data.weather[0].main;
-          let recommendation = "";
-
-          if (weather === "Rain") {
-            recommendation = "비 오는 날엔 물방울 귀걸이나 우산 모양의 핀을 추천해요!";
-          } else if (weather === "Clear") {
-            recommendation = "맑은 날엔 반짝이는 썬샤인 귀걸이나 실버 반지를 추천해요!";
-          } else if (weather === "Clouds") {
-            recommendation = "구름 낀 날엔 몽글몽글한 진주 목걸이가 어울려요!";
-          } else if (weather === "Snow") {
-            recommendation = "눈 오는 날엔 크리스탈 악세서리가 잘 어울려요!";
-          } else {
-            recommendation = "오늘은 기본적인 데일리 악세서리를 추천해요!";
-          }
-
-          document.getElementById("weather-recommendation").innerHTML = `현재 날씨는 <strong>${weather}</strong>입니다. <br>${recommendation}`;
-        })
-        .catch(error => {
-          document.getElementById("weather-recommendation").innerHTML = "날씨 정보를 불러오는 데 실패했어요.";
-          console.error(error);
-        });
-    }
-
-    // 생년월일 및 태어난 시간으로 사주 분석
-    function getFortune() {
-      const birthday = document.getElementById("birthday").value;
-      let birthtime = document.getElementById("birthtime").value;
-      
-      // 만약 태어난 시간이 입력되지 않았으면 기본적으로 '12:00'을 사용
-      if (!birthtime) {
-        birthtime = "12:00";  // 기본 시간
+      if (unknownTime) {
+        birthtime = '12:00'; // 기본값으로 정오
       }
 
-      if (!birthday) {
-        document.getElementById("fortune-recommendation").innerHTML = "생년월일을 입력해 주세요.";
-        return;
-      }
+      let personality = '';
+      let accessory = '';
+      if (mood === 'happy') personality = '에너지가 넘쳐요!';
+      else if (mood === 'sad') personality = '위로가 필요해 보여요.';
+      else if (mood === 'tired') personality = '충전이 필요한 하루네요!';
+      else personality = '설레는 하루, 특별한 일이 생길지도?';
 
-      // 간단한 사주 결과 생성 (생년월일과 태어난 시간에 따른 분석)
-      const fortuneMessages = [
-        "오늘은 새로운 기회를 만날 수 있어요!",
-        "조금 더 인내심을 가지면 좋은 일이 생길 거에요.",
-        "오늘은 기분 좋은 소식이 올 것 같아요!",
-        "사소한 일에 신경 쓰지 마세요. 큰 일이 일어날 거에요."
-      ];
+      if (color === 'purple') accessory = '라벤더 펜던트 목걸이';
+      else if (color === 'blue') accessory = '블루 사파이어 반지';
+      else if (color === 'pink') accessory = '핑크 크리스탈 귀걸이';
+      else accessory = '블랙 오닉스 팔찌';
 
-      const randomFortune = fortuneMessages[Math.floor(Math.random() * fortuneMessages.length)];
-      document.getElementById("fortune-recommendation").innerHTML = 
-        `생년월일: ${birthday} | 태어난 시간: ${birthtime}<br>${randomFortune}`;
+      document.getElementById('resultBox').style.display = 'block';
+      document.getElementById('resultBox').innerHTML = `
+        <h3>사주 결과</h3>
+        <p>입력하신 생년월일: <strong>${birthdate}</strong></p>
+        <p>태어난 시간: <strong>${birthtime}</strong></p>
+        <h3>심리 분석</h3>
+        <p>${personality}</p>
+        <h3>오늘의 추천 악세서리</h3>
+        <p><strong>${accessory}</strong>를 추천해요!</p>
+        <p>별자리: <strong>${getZodiac(birthdate)}</strong></p>
+        <p><em>오늘의 날씨에 어울리는 스타일도 고려해보세요!</em></p>
+      `;
     }
 
-    // 심리 테스트 추천 (간단한 심리 상태 테스트)
-    function getPsychology() {
-      const psychologyMessages = [
-        "현재의 기분은 매우 긍정적이에요. 자신감을 가지세요!",
-        "오늘은 휴식이 필요할 수 있어요. 마음을 안정시키세요.",
-        "조금 더 여유를 가지세요. 과도한 스트레스를 피하는 것이 중요해요.",
-        "사소한 문제에 대해 신경 쓰지 마세요. 모든 일이 해결될 거에요."
-      ];
-
-      const randomPsychology = psychologyMessages[Math.floor(Math.random() * psychologyMessages.length)];
-      document.getElementById("psychology-recommendation").innerHTML = randomPsychology;
+    function getZodiac(date) {
+      const d = new Date(date);
+      const m = d.getMonth() + 1;
+      const day = d.getDate();
+      if ((m === 1 && day >= 20) || (m === 2 && day <= 18)) return '물병자리';
+      if ((m === 2 && day >= 19) || (m === 3 && day <= 20)) return '물고기자리';
+      if ((m === 3 && day >= 21) || (m === 4 && day <= 19)) return '양자리';
+      if ((m === 4 && day >= 20) || (m === 5 && day <= 20)) return '황소자리';
+      if ((m === 5 && day >= 21) || (m === 6 && day <= 21)) return '쌍둥이자리';
+      if ((m === 6 && day >= 22) || (m === 7 && day <= 22)) return '게자리';
+      if ((m === 7 && day >= 23) || (m === 8 && day <= 22)) return '사자자리';
+      if ((m === 8 && day >= 23) || (m === 9 && day <= 22)) return '처녀자리';
+      if ((m === 9 && day >= 23) || (m === 10 && day <= 22)) return '천칭자리';
+      if ((m === 10 && day >= 23) || (m === 11 && day <= 22)) return '전갈자리';
+      if ((m === 11 && day >= 23) || (m === 12 && day <= 24)) return '사수자리';
+      return '염소자리';
     }
-
-    // 악세서리 추천
-    function getAccessoryRecommendation() {
-      const accessories = [
-        "오늘은 반짝이는 귀걸이가 잘 어울려요!",
-        "실버 목걸이나 팔찌로 멋을 더해보세요.",
-        "부드러운 느낌의 진주 액세서리가 좋을 거에요.",
-        "심플한 디자인의 반지가 오늘의 스타일을 완성할 거에요."
-      ];
-      const randomAccessory = accessories[Math.floor(Math.random() * accessories.length)];
-      document.getElementById("accessory-recommendation").innerHTML = randomAccessory;
-    }
-  </script>
-</body>
+  </script></body>
 </html>
