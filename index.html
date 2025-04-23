@@ -8,157 +8,153 @@
         font-family: 'Apple SD Gothic Neo', sans-serif;
         margin: 0;
         padding: 0;
-        transition: background-color 0.5s ease;
-      }
-      .container {
-        max-width: 700px;
-        margin: 40px auto;
-        background-color: white;
-        border-radius: 20px;
-        padding: 30px;
-        box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-        text-align: center;
-      }
-      h1 {
-        color: #ae94f4;
-      }
-      .input-group {
-        margin: 15px 0;
-      }
-      input, select, button {
-        padding: 10px;
-        border-radius: 10px;
-        border: 1px solid #ccc;
-        width: 90%;
-        margin: 5px auto;
-      }
-      .result, .weather, .horoscope, .insta {
-        margin-top: 30px;
-        padding: 15px;
-        background: #f4efff;
-        border-radius: 15px;
-      }
-      .share-btn {
-        margin-top: 10px;
-        background-color: #ae94f4;
-        color: white;
-        border: none;
-        cursor: pointer;
-      }
-      .moon-theme-full { background-color: #fff3e6; }
-      .moon-theme-new { background-color: #e6f7ff; }
-    </style>
+        transition: background 1s, color 1s;
+      }.container {
+    max-width: 800px;
+    margin: 50px auto;
+    background-color: white;
+    border-radius: 30px;
+    padding: 40px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    text-align: center;
+  }
+
+  h1 {
+    color: #9b7ede;
+    font-size: 28px;
+    margin-bottom: 30px;
+  }
+
+  .section {
+    margin-bottom: 30px;
+    text-align: left;
+  }
+
+  label, input, select, button {
+    font-size: 16px;
+    margin: 5px 0;
+    display: block;
+    width: 100%;
+  }
+
+  button {
+    background-color: #ae94f4;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 10px;
+    cursor: pointer;
+  }
+
+  .result {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #f1edff;
+    border-radius: 15px;
+  }
+
+  .share-link, .insta-link {
+    margin-top: 20px;
+    display: inline-block;
+    text-decoration: none;
+    background-color: #ae94f4;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 10px;
+  }
+
+  .day {
+    background-color: #fff9e6;
+    background-image: url('https://i.imgur.com/VBN7Ezr.png');
+    background-size: cover;
+    color: #333;
+  }
+
+  .night {
+    background-color: #1e1f3a;
+    background-image: url('https://i.imgur.com/MdX7NOA.png');
+    background-size: cover;
+    color: #f5f5f5;
+  }
+</style>
+
   </head>
   <body>
-    <div class="container" id="app">
-      <h1>Holymoly한 별의 노트</h1><div class="input-group">
-    <input type="text" id="username" placeholder="이름을 입력하세요" />
+    <div class="container">
+      <h1>오늘의 너에 딱 맞는 반짝임을 골라줄게</h1><div class="section">
+    <h2>사주 입력하기</h2>
+    <label for="birth">생년월일:</label>
+    <input type="date" id="birth">
+    <label for="birth-time">태어난 시간 (모르면 체크):</label>
+    <input type="time" id="birth-time">
+    <input type="checkbox" id="unknown-time"> 모름
   </div>
 
-  <h3>사주 입력하기</h3>
-  <div class="input-group">
-    <input type="date" id="birthdate" />
-    <input type="time" id="birthtime" />
-    <button onclick="handleSaju()">사주로 추천받기</button>
-    <button onclick="handleSaju(true)">시간 모름</button>
+  <div class="section">
+    <h2>심리 테스트</h2>
+    <p>간단한 5문항 테스트에 답해주세요:</p>
+    <label>1. 나는 외향적인 편이다. <input type="range" min="1" max="5"></label>
+    <label>2. 나는 감정에 민감하다. <input type="range" min="1" max="5"></label>
+    <label>3. 나는 즉흥적인 편이다. <input type="range" min="1" max="5"></label>
+    <label>4. 나는 사람들과 어울리는 걸 좋아한다. <input type="range" min="1" max="5"></label>
+    <label>5. 나는 새로운 것을 시도하는 걸 좋아한다. <input type="range" min="1" max="5"></label>
   </div>
 
-  <div class="input-group">
-    <button onclick="handlePsychology()">간단한 심리 테스트 하기</button>
+  <div class="section">
+    <h2>날씨 정보</h2>
+    <button onclick="getWeather()">현재 날씨 가져오기</button>
+    <p id="weather"></p>
   </div>
 
-  <div class="input-group">
-    <button onclick="handleWeather()">날씨 기반 추천 보기</button>
-  </div>
+  <button onclick="generateResult()">추천 받기</button>
 
-  <div class="result" id="sajuResult"></div>
-  <div class="result" id="psychologyResult"></div>
-  <div class="weather" id="weatherResult"></div>
-  <div class="horoscope" id="horoscopeResult"></div>
-  <div class="insta">
-    <a href="https://www.instagram.com/holymolyoeel?igsh=a2draXB6OGRxZ2pk" target="_blank">
-      우리 인스타그램에서 더 많은 반짝임 구경하기
-    </a>
-  </div>
+  <div class="result" id="result"></div>
 
-  <div class="input-group">
-    <button class="share-btn" onclick="shareResults()">친구에게 공유하기</button>
-  </div>
+  <a href="https://www.instagram.com/holymolyoeel?igsh=a2draXB6OGRxZ2pk" class="insta-link" target="_blank">우리 인스타그램에서 더 많은 반짝임 만나기</a>
+  <a href="#" class="share-link" onclick="alert('공유 링크가 복사되었습니다!')">친구에게 공유하기</a>
 </div>
 
 <script>
-  function getUsername() {
-    const name = document.getElementById('username').value;
-    return name ? name + '님에게 추천하는 ' : '';
+  function setTheme() {
+    const hour = new Date().getHours();
+    document.body.className = hour >= 6 && hour < 18 ? 'day' : 'night';
   }
 
-  function handleSaju(skipTime = false) {
-    const birth = document.getElementById('birthdate').value;
-    const time = document.getElementById('birthtime').value;
-    if (!birth) return alert('생년월일을 입력해주세요!');
-
-    const accessories = ['진주 귀걸이', '라벤더빛 팔찌', '큐빅 헤어핀'];
-    const chosen = accessories[Math.floor(Math.random() * accessories.length)];
-    document.getElementById('sajuResult').innerText =
-      getUsername() + `사주에 어울리는 악세서리는: ${chosen}`;
-  }
-
-  function handlePsychology() {
-    const results = ['은은한 실버 반지', '활기찬 오렌지 귀걸이', '편안한 플라워 목걸이'];
-    const chosen = results[Math.floor(Math.random() * results.length)];
-    document.getElementById('psychologyResult').innerText =
-      getUsername() + `당신의 심리에 어울리는 악세서리는: ${chosen}`;
-  }
-
-  function handleWeather() {
-    fetch('https://api.openweathermap.org/data/2.5/weather?q=Seoul&appid=7d5952256ce624d9d58b005bea3dc42f&units=metric')
+  function getWeather() {
+    fetch("https://api.openweathermap.org/data/2.5/weather?q=Seoul&appid=7d5952256ce624d9d58b005bea3dc42f&units=metric")
       .then(res => res.json())
       .then(data => {
-        const temp = data.main.temp;
-        const desc = data.weather[0].description;
-        let suggestion = '';
-        let fashion = '';
-        let perfume = '';
-        if (temp < 10) {
-          suggestion = '따뜻한 니트 귀걸이';
-          fashion = '코트 + 앵클부츠';
-          perfume = '머스크 계열 따뜻한 향';
-        } else if (temp < 20) {
-          suggestion = '크리스탈 드롭 이어링';
-          fashion = '가디건 + 스커트';
-          perfume = '라벤더 & 프리지아 향';
-        } else {
-          suggestion = '컬러풀 비즈 팔찌';
-          fashion = '민소매 + 데님 팬츠';
-          perfume = '상큼한 시트러스 계열';
-        }
-        document.getElementById('weatherResult').innerText =
-          `${getUsername()}현재 날씨는 ${desc}, ${temp}°C
-
-추천 악세서리: ${suggestion} 의상: ${fashion} 향수: ${perfume}`; }); }
-
-function shareResults() {
-    const url = window.location.href;
-    navigator.clipboard.writeText(url).then(() => {
-      alert('링크가 복사되었어요! 친구에게 붙여넣기 해보세요.');
-    });
+        document.getElementById("weather").innerText = `지금 날씨는 ${data.weather[0].description}, 온도는 ${data.main.temp}°C`;
+      });
   }
 
-  // 오늘의 별자리 운세 (간단히 랜덤)
-  const horoscopes = [
-    '좋은 기회가 찾아올 거예요!',
-    '오늘은 휴식이 필요해요.',
-    '기분 좋은 하루가 될 거예요!',
-    '새로운 인연을 만날지도 몰라요.'
-  ];
-  document.getElementById('horoscopeResult').innerText =
-    '오늘의 별자리 운세: ' + horoscopes[Math.floor(Math.random() * horoscopes.length)];
+  function generateResult() {
+    const birth = document.getElementById("birth").value;
+    const time = document.getElementById("birth-time").value;
+    const unknownTime = document.getElementById("unknown-time").checked;
+    const accessories = ["라벤더 크리스탈 목걸이", "달빛 실버 이어링"];
+    const outfits = ["라일락 컬러 원피스", "크림 니트 가디건"];
+    const perfumes = ["라벤더 블룸 향수", "코튼 플로럴 미스트"];
 
-  // 달 상태에 따라 배경색 테마 변경
-  const date = new Date();
-  const moonDay = date.getDate() % 29.5;
-  if (moonDay < 7) document.body.classList.add('moon-theme-new');
-  else if (moonDay > 22) document.body.classList.add('moon-theme-full');
+    const selectedAccessory = accessories[Math.floor(Math.random() * accessories.length)];
+    const selectedOutfit = outfits[Math.floor(Math.random() * outfits.length)];
+    const selectedPerfume = perfumes[Math.floor(Math.random() * perfumes.length)];
+
+    const result = `
+      <h3>오늘의 추천</h3>
+      <p><strong>생년월일:</strong> ${birth} ${unknownTime ? '(시간 미상)' : time}</p>
+      <p><strong>오늘의 운세:</strong> 기회가 다가오고 있어요. 주변의 신호를 잘 살펴보세요!</p>
+      <p><strong>기운:</strong> 차분하고 감성적인 에너지가 흐르고 있어요.</p>
+      <p><strong>별자리 운세:</strong> 감성적인 시간을 보내기에 좋아요. 창의적인 활동을 해보세요.</p>
+      <p><strong>추천 악세서리:</strong> ${selectedAccessory}</p>
+      <p><strong>추천 의상:</strong> ${selectedOutfit}</p>
+      <p><strong>추천 향수:</strong> ${selectedPerfume}</p>
+    `;
+
+    document.getElementById("result").innerHTML = result;
+  }
+
+  setTheme();
 </script>
 
   </body>
