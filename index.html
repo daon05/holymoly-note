@@ -47,7 +47,7 @@
       border-radius: 5px;
       border: 1px solid #ccc;
     }
-    #weather-recommendation, #fortune-recommendation, #accessory-recommendation {
+    #weather-recommendation, #fortune-recommendation, #accessory-recommendation, #psychology-recommendation {
       margin-top: 30px;
       font-size: 18px;
       color: #555;
@@ -71,10 +71,15 @@
     <button onclick="getWeather()">날씨에 맞는 악세서리 추천</button>
     <div id="weather-recommendation"></div>
 
-    <!-- 생년월일 및 태어난 시간 입력 -->
+    <!-- 사주 입력하기 -->
+    <h2>사주 입력하기</h2>
     <input type="date" id="birthday" onchange="getFortune()">
     <input type="time" id="birthtime" onchange="getFortune()">
     <div id="fortune-recommendation"></div>
+
+    <!-- 심리 관련 질문 -->
+    <button onclick="getPsychology()">오늘의 심리 추천</button>
+    <div id="psychology-recommendation"></div>
 
     <!-- 악세서리 추천 -->
     <button onclick="getAccessoryRecommendation()">오늘의 악세서리 추천</button>
@@ -147,6 +152,19 @@
       const randomFortune = fortuneMessages[Math.floor(Math.random() * fortuneMessages.length)];
       document.getElementById("fortune-recommendation").innerHTML = 
         `생년월일: ${birthday} | 태어난 시간: ${birthtime}<br>${randomFortune}`;
+    }
+
+    // 심리 테스트 추천 (간단한 심리 상태 테스트)
+    function getPsychology() {
+      const psychologyMessages = [
+        "현재의 기분은 매우 긍정적이에요. 자신감을 가지세요!",
+        "오늘은 휴식이 필요할 수 있어요. 마음을 안정시키세요.",
+        "조금 더 여유를 가지세요. 과도한 스트레스를 피하는 것이 중요해요.",
+        "사소한 문제에 대해 신경 쓰지 마세요. 모든 일이 해결될 거에요."
+      ];
+
+      const randomPsychology = psychologyMessages[Math.floor(Math.random() * psychologyMessages.length)];
+      document.getElementById("psychology-recommendation").innerHTML = randomPsychology;
     }
 
     // 악세서리 추천
