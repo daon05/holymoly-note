@@ -1,161 +1,109 @@
 <!DOCTYPE html><html lang="ko">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Holymoly한 별의 노트</title>
-    <style>
-      body {
-        font-family: 'Apple SD Gothic Neo', sans-serif;
-        margin: 0;
-        padding: 0;
-        transition: background 1s, color 1s;
-      }.container {
-    max-width: 800px;
-    margin: 50px auto;
-    background-color: white;
-    border-radius: 30px;
-    padding: 40px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-    text-align: center;
-  }
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Holymoly한 별의 노트</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Apple SD Gothic Neo', sans-serif;
+      transition: background-color 0.5s, color 0.5s;
+    }body.day {
+  background-color: #f8f4ff;
+  color: #222;
+}
 
-  h1 {
-    color: #9b7ede;
-    font-size: 28px;
-    margin-bottom: 30px;
-  }
+body.night {
+  background-color: #1e1e2f;
+  color: #f0f0f0;
+}
 
-  .section {
-    margin-bottom: 30px;
-    text-align: left;
-  }
+.container {
+  max-width: 700px;
+  margin: 50px auto;
+  background-color: white;
+  border-radius: 20px;
+  padding: 30px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  text-align: center;
+}
 
-  label, input, select, button {
-    font-size: 16px;
-    margin: 5px 0;
-    display: block;
-    width: 100%;
-  }
+.title {
+  color: #ae94f4;
+  font-size: 28px;
+  margin-bottom: 20px;
+}
 
-  button {
-    background-color: #ae94f4;
-    color: white;
-    border: none;
-    padding: 10px;
-    border-radius: 10px;
-    cursor: pointer;
-  }
+input, select, button {
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  width: 80%;
+  max-width: 400px;
+}
 
-  .result {
-    margin-top: 20px;
-    padding: 20px;
-    background-color: #f1edff;
-    border-radius: 15px;
-  }
+button {
+  background-color: #ae94f4;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
 
-  .share-link, .insta-link {
-    margin-top: 20px;
-    display: inline-block;
-    text-decoration: none;
-    background-color: #ae94f4;
-    color: white;
-    padding: 10px 20px;
-    border-radius: 10px;
-  }
+.result {
+  margin-top: 30px;
+  padding: 20px;
+  background-color: #f3eefe;
+  border-radius: 12px;
+}
 
-  .day {
-    background-color: #fff9e6;
-    background-image: url('https://i.imgur.com/VBN7Ezr.png');
-    background-size: cover;
-    color: #333;
-  }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="title">오늘의 너에 딱 맞는 반짝임을 골라줄게</div><h3>사주 입력하기</h3>
+<input type="date" id="birthdate" placeholder="생년월일" />
+<input type="time" id="birthtime" placeholder="출생 시간" />
+<br/>
+<label><input type="checkbox" id="unknown-time" /> 출생 시간을 몰라요</label>
 
-  .night {
-    background-color: #1e1f3a;
-    background-image: url('https://i.imgur.com/MdX7NOA.png');
-    background-size: cover;
-    color: #f5f5f5;
-  }
-</style>
-
-  </head>
-  <body>
-    <div class="container">
-      <h1>오늘의 너에 딱 맞는 반짝임을 골라줄게</h1><div class="section">
-    <h2>사주 입력하기</h2>
-    <label for="birth">생년월일:</label>
-    <input type="date" id="birth">
-    <label for="birth-time">태어난 시간 (모르면 체크):</label>
-    <input type="time" id="birth-time">
-    <input type="checkbox" id="unknown-time"> 모름
-  </div>
-
-  <div class="section">
-    <h2>심리 테스트</h2>
-    <p>간단한 5문항 테스트에 답해주세요:</p>
-    <label>1. 나는 외향적인 편이다. <input type="range" min="1" max="5"></label>
-    <label>2. 나는 감정에 민감하다. <input type="range" min="1" max="5"></label>
-    <label>3. 나는 즉흥적인 편이다. <input type="range" min="1" max="5"></label>
-    <label>4. 나는 사람들과 어울리는 걸 좋아한다. <input type="range" min="1" max="5"></label>
-    <label>5. 나는 새로운 것을 시도하는 걸 좋아한다. <input type="range" min="1" max="5"></label>
-  </div>
-
-  <div class="section">
-    <h2>날씨 정보</h2>
-    <button onclick="getWeather()">현재 날씨 가져오기</button>
-    <p id="weather"></p>
-  </div>
-
-  <button onclick="generateResult()">추천 받기</button>
-
-  <div class="result" id="result"></div>
-
-  <a href="https://www.instagram.com/holymolyoeel?igsh=a2draXB6OGRxZ2pk" class="insta-link" target="_blank">우리 인스타그램에서 더 많은 반짝임 만나기</a>
-  <a href="#" class="share-link" onclick="alert('공유 링크가 복사되었습니다!')">친구에게 공유하기</a>
+<h3>간단한 심리테스트</h3>
+<div id="quiz">
+  <p>1. 오늘 기분은 어떤가요?<br/><input /></p>
+  <p>2. 좋아하는 계절은?<br/><input /></p>
+  <p>3. 요즘 가장 끌리는 색은?<br/><input /></p>
+  <p>4. 하루 중 가장 편한 시간대는?<br/><input /></p>
+  <p>5. 지금 사고 싶은 건?<br/><input /></p>
 </div>
 
-<script>
-  function setTheme() {
-    const hour = new Date().getHours();
-    document.body.className = hour >= 6 && hour < 18 ? 'day' : 'night';
-  }
+<button onclick="generateResult()">반짝임 추천 받기</button>
 
-  function getWeather() {
-    fetch("https://api.openweathermap.org/data/2.5/weather?q=Seoul&appid=7d5952256ce624d9d58b005bea3dc42f&units=metric")
-      .then(res => res.json())
-      .then(data => {
-        document.getElementById("weather").innerText = `지금 날씨는 ${data.weather[0].description}, 온도는 ${data.main.temp}°C`;
-      });
-  }
+<div class="result" id="result">
+  <!-- 결과 출력 영역 -->
+</div>
 
-  function generateResult() {
-    const birth = document.getElementById("birth").value;
-    const time = document.getElementById("birth-time").value;
-    const unknownTime = document.getElementById("unknown-time").checked;
-    const accessories = ["라벤더 크리스탈 목걸이", "달빛 실버 이어링"];
-    const outfits = ["라일락 컬러 원피스", "크림 니트 가디건"];
-    const perfumes = ["라벤더 블룸 향수", "코튼 플로럴 미스트"];
+<p><a href="https://www.instagram.com/holymolyoeel" target="_blank">더 많은 반짝임은 인스타그램에서 만나보세요</a></p>
 
-    const selectedAccessory = accessories[Math.floor(Math.random() * accessories.length)];
-    const selectedOutfit = outfits[Math.floor(Math.random() * outfits.length)];
-    const selectedPerfume = perfumes[Math.floor(Math.random() * perfumes.length)];
+  </div>  <script>
+    function applyTheme() {
+      const hour = new Date().getHours();
+      document.body.className = (hour >= 6 && hour < 18) ? 'day' : 'night';
+    }
+    applyTheme();
 
-    const result = `
-      <h3>오늘의 추천</h3>
-      <p><strong>생년월일:</strong> ${birth} ${unknownTime ? '(시간 미상)' : time}</p>
-      <p><strong>오늘의 운세:</strong> 기회가 다가오고 있어요. 주변의 신호를 잘 살펴보세요!</p>
-      <p><strong>기운:</strong> 차분하고 감성적인 에너지가 흐르고 있어요.</p>
-      <p><strong>별자리 운세:</strong> 감성적인 시간을 보내기에 좋아요. 창의적인 활동을 해보세요.</p>
-      <p><strong>추천 악세서리:</strong> ${selectedAccessory}</p>
-      <p><strong>추천 의상:</strong> ${selectedOutfit}</p>
-      <p><strong>추천 향수:</strong> ${selectedPerfume}</p>
-    `;
+    function generateResult() {
+      const birthdate = document.getElementById("birthdate").value;
+      const birthtime = document.getElementById("birthtime").value;
+      const unknownTime = document.getElementById("unknown-time").checked;
 
-    document.getElementById("result").innerHTML = result;
-  }
+      let resultText = `<h4>당신만의 반짝임 추천</h4>`;
 
-  setTheme();
-</script>
+      resultText += `<p><strong>사주 기반 추천:</strong> 우아한 진주 목걸이, 차분한 크림색 블라우스</p>`;
+      resultText += `<p><strong>심리 테스트 기반 추천:</strong> 컬러풀한 참 팔찌, 부드러운 라벤더 향수</p>`;
+      resultText += `<p><strong>날씨 기반 추천:</strong> 화창한 날엔 선글라스, 샤베트향 향수</p>`;
 
-  </body>
+      document.getElementById("result").innerHTML = resultText;
+    }
+  </script></body>
 </html>
