@@ -1,20 +1,109 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html lang="ko">
-<머리>
- <meta charset=>UTF-8">
- <meta 이름="viewport" 콘텐츠="width=장치 너비, 초기 스케일=1.0">
- <title>홀리모리 한 별의 노트</title>
-    <스타일.>
-        몸 {
- 폰트 패밀리: '아리알', 산세리프;
- 배경색: #f9f4ff;
- 색상: #333;
- 여백: 0;
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Holymoly한 별의 노트</title>
+  <style>
+    body {
+      font-family: 'Apple SD Gothic Neo', sans-serif;
+      background-color: #f8f4ff;
+      margin: 0;
  패딩: 0;
+    }
+
+ .diary-container {
+ 최대 너비: 600 px;
+ 마진: 40 px 오토;
+ 배경: 흰색;
+ 국경 radius: 16 px;
+ 패딩: 24 px;
+ box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+ color: #7f5fcf;
+ 글꼴 크기: 24 px;
+ 마진 바닥: 16 px;
  텍스트 align: 중심;
-        }
-        헤더 {
- 배경색: #e0bbf3;
- 패딩: 20 px;
-        }
-    
+    }
+
+ 입력, 버튼 {
+ 너비: 100%;
+ 패딩: 12 px;
+ 마진 탑: 12 px;
+ 글꼴 크기: 16 px;
+ 경계: 1 px 고체 #cc;
+ 국경 radius: 8 px;
+    }
+
+    버튼 {
+ 배경색: #bfa8ff;
+ 색상: 흰색;
+ 경계: 없음;
+ 커서: 포인터;
+    }
+
+ .result {
+ 마진 탑: 20 px;
+ 글꼴 크기: 18 px;
+ 색상: #444;
+    }
+  </스타일.>
+</머리>
+<몸>
+ <div class="diary-container">
+ <h1>Holymoly한 별의 노트</h1>
+ <p>생년월일을 입력하면 너만의 반짝임을 알려줄게!</p>
+ <입력 유형="날짜" ID="생년월일" />
+ <버튼 클릭="showResult()">반짝이 추천받기</버튼>
+ <div class="result" id="resultBox"></div>
+  </디브>
+
+  <script>
+    function showResult() {
+      const date = new Date(document.getElementById("birthdate").value);
+      const month = date.getMonth() + 1;
+      const day = date.getDate();
+
+      if (!month || !day) {
+        document.getElementById("resultBox").innerText = "생년월일을 정확히 입력해줘!";
+        return;
+      }
+
+      let sign = "";
+      if ((month == 1 && day >= 20) || (month == 2 && day <= 18)) sign = "물병자리";
+      else if ((month == 2 && day >= 19) || (month == 3 && day <= 20)) sign = "물고기자리";
+      else if ((month == 3 && day >= 21) || (month == 4 && day <= 19)) sign = "양자리";
+      else if ((month == 4 && day >= 20) || (month == 5 && day <= 20)) sign = "황소자리";
+      else if ((month == 5 && day >= 21) || (month == 6 && day <= 21)) sign = "쌍둥이자리";
+      else if ((month == 6 && day >= 22) || (month == 7 && day <= 22)) sign = "게자리";
+      else if ((month == 7 && day >= 23) || (month == 8 && day <= 22)) sign = "사자자리";
+      else if ((month == 8 && day >= 23) || (month == 9 && day <= 22)) sign = "처녀자리";
+ 그렇지 않으면 ((월 == 9 & & 데이 >= 23) || (월 == 10 & 데이 <= 22) 기호 = "천칭자리";
+ 그렇지 않으면 ((월 == 10 & & 데이 >= 23) || (월 == 11 & 데이 <= 22) 기호 = "전갈자리";
+ 그렇지 않으면 ((월 == 11 & & & 데이 >= 23) || (월 == 12 & 데이 <= 24) 기호 = "사수자리";
+ 다른 기호 = "염소자리";
+
+ 부품 액세서리 = {
+ "물병자리": "유니크한 크리스탈 반지",
+ "물고기자리": "은은한 진주 목걸이",
+ "양자리": "불꽃 같은 빨간 팔찌",
+ "황소자리": "안정적인 그린 토르말린",
+ "쌍둥이자리": "변화를 담은 체인 이어링",
+ "게자리": "감성을 담은 조가비 귀걸이",
+ "사자자리": "화려한 골드 뱅글",
+ "처녀자리": "깔끔한 실버 체인",
+ "천칭자리": "밸런스를 상징하는 쌍별 펜던트",
+ "전갈자리": "매혹적인 블랙 오닉스",
+ "사수자리": "자유로운 깃털 모양 팔찌",
+ "염소자리": "묵직한 스톤 팔찌"
+ }
+
+ document.getElementById("resultBox").innerText = 
+        `당신의 별자리는 "${서명하다}"이에요! 
+오늘의 너에 딱 맞는 반짝임은 "${accessories[sign]}"이야.`
+    }
+  </대본>
+</body>
+ </html>
