@@ -1,109 +1,72 @@
 <!DOCTYPE html><html lang="ko">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Holymoly한 별의 노트</title>
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: 'Apple SD Gothic Neo', sans-serif;
-      transition: background-color 0.5s, color 0.5s;
-    }body.day {
-  background-color: #f8f4ff;
-  color: #222;
-}
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Holymoly한 별의 노트</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: 'Apple SD Gothic Neo', sans-serif;
+        background-color: #ffffff;
+        color: #000000;
+      }.container {
+    max-width: 800px;
+    margin: 50px auto;
+    background-color: #f2f2f2;
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    text-align: center;
+  }
 
-body.night {
-  background-color: #1e1e2f;
-  color: #f0f0f0;
-}
+  h1 {
+    color: #4b0082;
+    font-size: 28px;
+    margin-bottom: 20px;
+  }
 
-.container {
-  max-width: 700px;
-  margin: 50px auto;
-  background-color: white;
-  border-radius: 20px;
-  padding: 30px;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-  text-align: center;
-}
+  input, select, button {
+    font-size: 16px;
+    padding: 10px;
+    margin: 5px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+  }
 
-.title {
-  color: #ae94f4;
-  font-size: 28px;
-  margin-bottom: 20px;
-}
+  button {
+    background-color: #4b0082;
+    color: white;
+    cursor: pointer;
+  }
 
-input, select, button {
-  padding: 10px;
-  margin: 10px 0;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  width: 80%;
-  max-width: 400px;
-}
+  .results {
+    margin-top: 20px;
+    text-align: left;
+  }
 
-button {
-  background-color: #ae94f4;
-  color: white;
-  border: none;
-  cursor: pointer;
-}
+  .insta-link {
+    margin-top: 30px;
+    text-align: center;
+  }
 
-.result {
-  margin-top: 30px;
-  padding: 20px;
-  background-color: #f3eefe;
-  border-radius: 12px;
-}
+  .insta-link a {
+    color: #4b0082;
+    text-decoration: none;
+    font-weight: bold;
+  }
+</style>
 
-  </style>
-</head>
-<body>
-  <div class="container">
-    <div class="title">오늘의 너에 딱 맞는 반짝임을 골라줄게</div><h3>사주 입력하기</h3>
-<input type="date" id="birthdate" placeholder="생년월일" />
-<input type="time" id="birthtime" placeholder="출생 시간" />
-<br/>
-<label><input type="checkbox" id="unknown-time" /> 출생 시간을 몰라요</label>
-
-<h3>간단한 심리테스트</h3>
-<div id="quiz">
-  <p>1. 오늘 기분은 어떤가요?<br/><input /></p>
-  <p>2. 좋아하는 계절은?<br/><input /></p>
-  <p>3. 요즘 가장 끌리는 색은?<br/><input /></p>
-  <p>4. 하루 중 가장 편한 시간대는?<br/><input /></p>
-  <p>5. 지금 사고 싶은 건?<br/><input /></p>
+  </head>
+  <body>
+    <div class="container">
+      <h1>오늘의 너에 딱 맞는 반짝임을 골라줄게</h1>
+      <!-- 입력 폼과 결과 영역은 여기에 JavaScript로 추가 -->
+    </div><div class="insta-link">
+  <a href="https://www.instagram.com/holymolyoeel?igsh=a2draXB6OGRxZ2pk" target="_blank">
+    인스타그램에서 더 많은 반짝임 보기
+  </a>
 </div>
 
-<button onclick="generateResult()">반짝임 추천 받기</button>
-
-<div class="result" id="result">
-  <!-- 결과 출력 영역 -->
-</div>
-
-<p><a href="https://www.instagram.com/holymolyoeel" target="_blank">더 많은 반짝임은 인스타그램에서 만나보세요</a></p>
-
-  </div>  <script>
-    function applyTheme() {
-      const hour = new Date().getHours();
-      document.body.className = (hour >= 6 && hour < 18) ? 'day' : 'night';
-    }
-    applyTheme();
-
-    function generateResult() {
-      const birthdate = document.getElementById("birthdate").value;
-      const birthtime = document.getElementById("birthtime").value;
-      const unknownTime = document.getElementById("unknown-time").checked;
-
-      let resultText = `<h4>당신만의 반짝임 추천</h4>`;
-
-      resultText += `<p><strong>사주 기반 추천:</strong> 우아한 진주 목걸이, 차분한 크림색 블라우스</p>`;
-      resultText += `<p><strong>심리 테스트 기반 추천:</strong> 컬러풀한 참 팔찌, 부드러운 라벤더 향수</p>`;
-      resultText += `<p><strong>날씨 기반 추천:</strong> 화창한 날엔 선글라스, 샤베트향 향수</p>`;
-
-      document.getElementById("result").innerHTML = resultText;
-    }
-  </script></body>
+  </body>
 </html>
