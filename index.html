@@ -1,36 +1,132 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html lang="ko">
-  <머리>
- <meta charset=>UTF-8" />
- <meta 이름="viewport" 콘텐츠="width=장치 너비, 초기 규모=1.0" />
- <title>홀리모리 한 별의 노트</title>
-    <스타일.>
-      몸 {
- 폰트 패밀리: 'Apple SD 고딕 네오', 산세리프;
- 배경색: #f8f4ff;
- 여백: 0;
- 패딩: 0;
- 색상: #333;
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Holymoly한 별의 노트</title>
+    <style>
+      body {
+        font-family: 'Apple SD Gothic Neo', sans-serif;
+        background-color: #f8f4ff;
+        margin: 0;
+        padding: 0;
+        color: #333;
       }
- .container {
- 최대 너비: 600 px;
- 마진: 50 px 오토;
- 배경색: 흰색;
- 국경 radius: 20 px;
- 패딩: 30 px;
- box-shadow: 0 5px 15px rgba(0,0,0,0.1);
- 텍스트 align: 중심;
+      .container {
+        max-width: 600px;
+        margin: 50px auto;
+        background-color: white;
+        border-radius: 20px;
+        padding: 30px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        text-align: center;
       }
       h1 {
- color: #ae94f4;
- 글꼴 크기: 24 px;
- 마진 바닥: 20 px;
+        color: #ae94f4;
+        font-size: 24px;
+        margin-bottom: 20px;
       }
-    </스타일.>
-  </머리>
-  <몸>
- <div class="container">
- <h1>오늘의 너에 딱 맞는 반짝임을 골라줄게</h1>
-    </디브>
-  </몸>
+      input, select {
+        padding: 10px;
+        border-radius: 10px;
+        border: 1px solid #ccc;
+        margin: 5px;
+      }
+      button {
+        padding: 10px 20px;
+        background-color: #ae94f4;
+        color: white;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        font-weight: bold;
+        margin-top: 10px;
+      }
+      #result {
+        margin-top: 30px;
+        background: #f3ecff;
+        border-radius: 15px;
+        padding: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>오늘의 너에 딱 맞는 반짝임을 골라줄게</h1>
+
+      <p>생년월일을 입력해줘!</p>
+      <input type="date" id="birthdate" />
+      <br />
+      <label>태어난 시각:</label>
+      <input type="time" id="birthtime" />
+      <br />
+      <label>성별:</label>
+      <select id="gender">
+        <option value="female">여성</option>
+        <option value="male">남성</option>
+      </select>
+      <br />
+      <button onclick="showResult()">반짝임 찾기</button>
+
+      <div id="result"></div>
+    </div>
+
+    <script>
+      function getZodiacSign(month, day) {
+        const signs = [
+          ["물병자리", 1, 20], ["물고기자리", 2, 19], ["양자리", 3, 21],
+          ["황소자리", 4, 20], ["쌍둥이자리", 5, 21], ["게자리", 6, 21],
+          ["사자자리", 7, 23], ["처녀자리", 8, 23], ["천칭자리", 9, 23],
+          ["전갈자리", 10, 23], ["사수자리", 11, 22], ["염소자리", 12, 22]
+        ];
+        for (let i = signs.length - 1; i >= 0; i--) {
+          if (month > signs[i][1] || (month === signs[i][1] && day >= signs[i][2])) {
+            return signs[i][0];
+          }
+        }
+        return "염소자리";
+      }
+
+      function recommendAccessory(zodiac) {
+        const recommendations = {
+          "물병자리": "은하수빛 목걸이",
+          "물고기자리": "물방울 진주 귀걸이",
+          "양자리": "열정의 레드 크리스탈",
+          "황소자리": "스모키 쿼츠 반지",
+          "쌍둥이자리": "별빛 체인 팔찌",
+          "게자리": "달빛 진주 브로치",
+          "사자자리": "골드 태양 펜던트",
+          "처녀자리": "라벤더 큐빅 귀걸이",
+          "천칭자리": "밸런스 실버 링",
+          "전갈자리": "블랙 오닉스 목걸이",
+          "사수자리": "스파클링 스타 귀찌",
+          "염소자리": "클래식 오팔 반지"
+        };
+        return recommendations[zodiac] || "반짝이는 널 위한 특별한 아이템!";
+      }
+
+      function showResult() {
+        const date = document.getElementById("birthdate").value;
+        const time = document.getElementById("birthtime").value;
+        const gender = document.getElementById("gender").value;
+
+        if (!date || !time || !gender) {
+          alert("모든 정보를 입력해줘!");
+          return;
+        }
+
+        const [year, month, day] = date.split("-").map(Number);
+        const zodiac = getZodiacSign(month, day);
+        const accessory = recommendAccessory(zodiac);
+
+        document.getElementById("result").innerHTML = `
+          <h2>반짝임 분석 결과</h2>
+          <p><strong>당신의 별자리:</strong> ${zodiac}</p>
+          <p><strong>추천 반짝이:</strong> ${accessory}</p>
+          <p><strong>사주 느낌:</strong> ${gender === "female" ? "부드러운 에너지를 가진 이" : "강한 리더십을 가진 이"}로<br>
+          ${time < "12:00" ? "아침 기운" : "저녁 기운"}이 강한 스타일이에요.</p>
+        `;
+      }
+    </script>
+  </body>
 </html>
