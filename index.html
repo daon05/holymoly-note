@@ -40,7 +40,14 @@
     button:hover {
       background-color: #987ce0;
     }
-    #weather-recommendation {
+    input[type="date"], input[type="time"] {
+      padding: 10px;
+      font-size: 16px;
+      margin-top: 20px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    #weather-recommendation, #fortune-recommendation, #accessory-recommendation {
       margin-top: 30px;
       font-size: 18px;
       color: #555;
@@ -60,8 +67,18 @@
   <div class="container">
     <h1>오늘의 너에 딱 맞는 반짝임을 골라줄게</h1>
 
+    <!-- 날씨 정보 버튼 -->
     <button onclick="getWeather()">날씨에 맞는 악세서리 추천</button>
     <div id="weather-recommendation"></div>
+
+    <!-- 생년월일 및 태어난 시간 입력 -->
+    <input type="date" id="birthday" onchange="getFortune()">
+    <input type="time" id="birthtime" onchange="getFortune()">
+    <div id="fortune-recommendation"></div>
+
+    <!-- 악세서리 추천 -->
+    <button onclick="getAccessoryRecommendation()">오늘의 악세서리 추천</button>
+    <div id="accessory-recommendation"></div>
 
     <div class="instagram">
       <p>우리 인스타그램도 놀러와!</p>
@@ -72,6 +89,7 @@
   </div>
 
   <script>
+    // 날씨 정보 가져오기
     function getWeather() {
       const apiKey = "7d5952256ce624d9d58b005bea3dc42f";
       const city = "Seoul";
@@ -101,6 +119,46 @@
           document.getElementById("weather-recommendation").innerHTML = "날씨 정보를 불러오는 데 실패했어요.";
           console.error(error);
         });
+    }
+
+    // 생년월일 및 태어난 시간으로 사주 분석
+    function getFortune() {
+      const birthday = document.getElementById("birthday").value;
+      let birthtime = document.getElementById("birthtime").value;
+      
+      // 만약 태어난 시간이 입력되지 않았으면 기본적으로 '12:00'을 사용
+      if (!birthtime) {
+        birthtime = "12:00";  // 기본 시간
+      }
+
+      if (!birthday) {
+        document.getElementById("fortune-recommendation").innerHTML = "생년월일을 입력해 주세요.";
+        return;
+      }
+
+      // 간단한 사주 결과 생성 (생년월일과 태어난 시간에 따른 분석)
+      const fortuneMessages = [
+        "오늘은 새로운 기회를 만날 수 있어요!",
+        "조금 더 인내심을 가지면 좋은 일이 생길 거에요.",
+        "오늘은 기분 좋은 소식이 올 것 같아요!",
+        "사소한 일에 신경 쓰지 마세요. 큰 일이 일어날 거에요."
+      ];
+
+      const randomFortune = fortuneMessages[Math.floor(Math.random() * fortuneMessages.length)];
+      document.getElementById("fortune-recommendation").innerHTML = 
+        `생년월일: ${birthday} | 태어난 시간: ${birthtime}<br>${randomFortune}`;
+    }
+
+    // 악세서리 추천
+    function getAccessoryRecommendation() {
+      const accessories = [
+        "오늘은 반짝이는 귀걸이가 잘 어울려요!",
+        "실버 목걸이나 팔찌로 멋을 더해보세요.",
+        "부드러운 느낌의 진주 액세서리가 좋을 거에요.",
+        "심플한 디자인의 반지가 오늘의 스타일을 완성할 거에요."
+      ];
+      const randomAccessory = accessories[Math.floor(Math.random() * accessories.length)];
+      document.getElementById("accessory-recommendation").innerHTML = randomAccessory;
     }
   </script>
 </body>
